@@ -1,0 +1,23 @@
+.layout-main-container {
+    display: block;
+    position: relative;
+    min-height: 90%;
+    height: auto;
+    padding: 0rem 2rem 2rem 4rem;
+    transition: margin-left $transitionDuration;
+    border-radius: 2rem;
+}
+
+.layout-main {
+    display: block;
+    flex: 1 1 auto;
+    min-height: 90%;
+    height: auto;
+    width: 100%;
+    box-shadow: 1px 1px 10px 1px rgba(34, 60, 80, 0.3);
+    border-radius: 2rem;
+}
+
+.layout-main .content {
+    padding: 2rem;
+}
