@@ -14,6 +14,12 @@ const routes = [
                 meta: {hasAuth: false},
                 component: () => import('./pages/Balance.vue')
             },
+            {
+                path: '/users',
+                name: 'users',
+                meta: {hasAuth: false},
+                component: () => import('./pages/Users.vue')
+            },
 
         ],
     },

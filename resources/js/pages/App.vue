@@ -40,15 +40,10 @@ export default {
                 {
                     label: "Главная",
                     items: [
-                        {
-                            label: 'Главная страница', icon: 'pi pi-fw pi-user', to: '/balance'
-                        },
-                        {
-                            label: 'Компании', icon: 'pi pi-fw pi-users', to: '/'
-                        },
-                        {
-                            label: 'Объявления', icon: 'pi pi-fw pi-users', to: '/'
-                        }
+                        {label: 'Главная страница', icon: 'pi pi-fw pi-home', to: '/balance'},
+                        {label: 'Компании', icon: 'pi pi-fw pi-users', to: '/'},
+                        {label: 'Объявления', icon: 'pi pi-fw pi-users', to: '/'},
+                        {label: 'Пользователи', icon: 'pi pi-fw pi-users', to: '/users'},
                     ]
                 }
 

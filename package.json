@@ -24,6 +24,8 @@
         "primevue": "^4.1.1",
         "vue": "^3.5.12",
         "vue-router": "^4.4.5",
-        "vuex": "^4.1.0"
+        "vue-toastification": "^1.7.14",
+        "vuex": "^4.1.0",
+        "vuex-multi-tab-state": "^1.0.17"
     }
 }
