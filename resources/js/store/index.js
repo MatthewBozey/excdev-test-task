@@ -1,6 +1,10 @@
 import {createStore} from 'vuex';
 import createMultiTabState from 'vuex-multi-tab-state';
 import users from './modules/users.js'
+import notification from "./modules/notification.js";
+import user_balance from "./modules/user_balance.js";
+import balance_operation from "./modules/balance_operation.js";
+import operation_type from "./modules/operation_type.js";
 
 export default createStore({
     state: {
@@ -23,7 +27,11 @@ export default createStore({
     },
     actions: {},
     modules: {
-        users
+        users,
+        notification,
+        user_balance,
+        balance_operation,
+        operation_type
     },
     plugins: [createMultiTabState()]
 })

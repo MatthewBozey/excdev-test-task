@@ -9,14 +9,12 @@ use Illuminate\Http\Request;
 
 abstract class MainController extends Controller
 {
-
     protected BaseService $service;
 
     public function __construct(BaseService $service)
     {
         $this->service = $service;
     }
-
 
     public function index(Request $request): ApiSuccessResponse
     {

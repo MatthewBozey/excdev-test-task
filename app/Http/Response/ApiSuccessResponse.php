@@ -31,10 +31,6 @@ class ApiSuccessResponse implements Responsable
         $this->code = $code;
     }
 
-    /**
-     * @param $request
-     * @return JsonResponse
-     */
     final public function toResponse($request): JsonResponse
     {
         return response()->json(

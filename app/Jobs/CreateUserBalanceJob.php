@@ -23,7 +23,6 @@ class CreateUserBalanceJob implements ShouldQueue
         \Log::error($exception);
     }
 
-
     public function handle(): void
     {
         UserBalance::updateOrCreate(['user_id' => $this->user->id], ['balance' => 0]);

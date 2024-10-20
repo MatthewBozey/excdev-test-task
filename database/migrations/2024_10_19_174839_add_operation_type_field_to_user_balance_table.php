@@ -11,11 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-//        Schema::table('user_balance', function (Blueprint $table) {
-//            $table->after('balance', function ($table) {
-//                $table->foreignId('operation_type_id')->constrained('operation_type')->onDelete('cascade');
-//            });
-//        });
+        Schema::table('balance_operation', function (Blueprint $table) {
+            $table->after('operation_date', function ($table) {
+                $table->foreignId('operation_type_id')->constrained('operation_type')->onDelete('cascade');
+            });
+        });
     }
 
     /**

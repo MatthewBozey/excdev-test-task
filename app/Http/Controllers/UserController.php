@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Service\UserService;
+use Illuminate\Http\Request;
 
 class UserController extends MainController
 {
@@ -11,5 +12,8 @@ class UserController extends MainController
         parent::__construct($service);
     }
 
-
+    public function getBalance(Request $request)
+    {
+        return $this->service->getBalance($request);
+    }
 }

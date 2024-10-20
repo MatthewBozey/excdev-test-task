@@ -19,6 +19,7 @@ export default {
 
         deleteUser(state, data) {
             const index = state.users.findIndex(u => u.id === data.id);
+            console.log(index);
             if (index !== -1) {
                 state.users.splice(index, 1);
             }
@@ -46,7 +47,7 @@ export default {
 
         replaceUser( { commit }, data) {
             commit('replaceUser', data);
-        }
+        },
     },
     modules: {}
 }

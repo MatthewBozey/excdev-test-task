@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\OperationType;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class CreateOperationTypesSeeder extends Seeder
@@ -14,14 +13,14 @@ class CreateOperationTypesSeeder extends Seeder
     public function run(): void
     {
         OperationType::updateOrCreate([
-            'name' => 'credit'
+            'name' => 'credit',
         ], [
-            'title' => 'Начисление'
+            'title' => 'Начисление',
         ]);
         OperationType::updateOrCreate([
-            'name' => 'debit'
+            'name' => 'debit',
         ], [
-            'title' => 'Списание'
+            'title' => 'Списание',
         ]);
     }
 }

@@ -21,5 +21,4 @@ class ApiSuccess extends Facade
     {
         return new ApiSuccessResponse($data, $code, $metadata, $headers);
     }
-
 }

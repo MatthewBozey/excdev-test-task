@@ -13,6 +13,12 @@ class UserAddCommand extends Command
 
     public function handle()
     {
+        $email = $this->argument('email');
+        if (User::where('email', $email)->exists()) {
+            $this->error('Пользователь с таким email уже существует');
+
+            return;
+        }
         User::create([
             'name' => $this->argument('name'),
             'email' => $this->argument('email'),

@@ -12,16 +12,20 @@ use Illuminate\Http\Request;
 class BaseService
 {
     protected mixed $model;
-    protected string $storeRequest = CreateRequest::class;
-    protected string $updateRequest = UpdateRequest::class;
-    protected array $relations = [];
-    protected string $orderField = 'id';
 
+    protected string $storeRequest = CreateRequest::class;
+
+    protected string $updateRequest = UpdateRequest::class;
+
+    protected array $relations = [];
+
+    protected string $orderField = 'id';
 
     public function get(\Illuminate\Http\Request $request): ApiSuccessResponse
     {
         return ApiSuccess::withData($this->model::orderBy($this->orderField)->with($this->relations)->get());
     }
+
     /**
      * @throws BindingResolutionException
      */

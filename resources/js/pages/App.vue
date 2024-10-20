@@ -33,16 +33,15 @@ export default {
     data() {
         return {
             layoutMode: 'static',
-            staticMenuInactive: false,
+            staticMenuInactive: true,
             overlayMenuActive: false,
-            mobileMenuActive: false,
+            mobileMenuActive: true,
             menu: [
                 {
                     label: "Главная",
                     items: [
                         {label: 'Главная страница', icon: 'pi pi-fw pi-home', to: '/balance'},
-                        {label: 'Компании', icon: 'pi pi-fw pi-users', to: '/'},
-                        {label: 'Объявления', icon: 'pi pi-fw pi-users', to: '/'},
+                        {label: 'Операции', icon: 'pi pi-fw pi-users', to: '/operations'},
                         {label: 'Пользователи', icon: 'pi pi-fw pi-users', to: '/users'},
                     ]
                 }

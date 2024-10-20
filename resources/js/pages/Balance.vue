@@ -1,7 +1,29 @@
 <script>
 
+import api from "../service/api.js";
+import {mapActions, mapGetters} from "vuex";
+
 export default {
-    name: "Balance"
+    name: "Balance",
+    created() {
+        this.getBalance();
+        this.interval = setInterval(this.getBalance, 30000);
+    },
+    computed: {
+        ...mapGetters(['user_info'])
+    },
+    mounted() {
+
+    },
+    methods: {
+        ...mapActions(['saveUserInfo']),
+        getBalance() {
+            api.get('/api/users/balance').then(value => this.saveUserInfo(value.data.data));
+        }
+    },
+    beforeUnmount() {
+        clearInterval(this.interval);
+    }
 }
 </script>
 
@@ -10,21 +32,15 @@ export default {
         <div class="card ">
             <div class="flex justify-between align-items-center">
                 <div><h1 class="">Баланс</h1></div>
-                <div><h1>3000</h1></div>
+                <div><h1 v-text="user_info?.balance?.balance + ' ₽'"></h1></div>
             </div>
         </div>
 
-        <div class="card ">
-            <div class="flex justify-between align-items-center">
-                <div><h1 class="">Пополнений</h1></div>
-                <div><h1>3</h1></div>
-            </div>
-        </div>
-
-        <div class="card ">
-            <div class="flex justify-between align-items-center">
-                <div><h1 class="">Списаний</h1></div>
-                <div><h1>6</h1></div>
+        <div class="card " v-for="item in (this.user_info?.balance_operation_group ?? [])" :key="item.name">
+            <div
+                 class="flex justify-between align-items-center">
+                <div><h1 class="" v-text="item.name"></h1></div>
+                <div><h1 v-text="item.count"></h1></div>
             </div>
         </div>
 
@@ -33,48 +49,19 @@ export default {
                 <div class=""><h1>Последние операции</h1></div>
             </div>
             <ul class="list-none">
-                <li class="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
-                    <div>
-                        <h5 class="">Пополнение</h5>
-                        <small class="text-gray-300">2024-10-01 23:53:59</small>
+                <li v-for="item in (this.user_info?.balance_operation ?? [])" :key="item.id"
+                    class="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
+                    <div class="">
+                        <h4 class="" v-text="item.operation_type?.title"></h4>
+                        <h6 v-text="item.description"></h6>
+                        <small class="" style="color: lightgray" v-text="item.operation_date"></small>
                     </div>
-                    <div class="flex items-center"><h2 style="color: green">+500₽</h2></div>
-                </li>
-                <li class="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
-                    <div>
-                        <h5 class="">Списание</h5>
-                        <small class="text-gray-300">2024-10-01 23:53:59</small>
+                    <div class="flex items-center">
+                        <h2 v-text="item.amount + ' ₽' "
+                            :style="{color: item.operation_type.name === 'credit' ? 'green' : 'red'}"></h2>
                     </div>
-                    <div class="flex items-center"><h2 style="color: red">-500₽</h2></div>
                 </li>
-                <li class="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
-                    <div>
-                        <h5 class="">Пополнение</h5>
-                        <small class="text-gray-300">2024-10-01 23:53:59</small>
-                    </div>
-                    <div class="flex items-center"><h2 style="color: green">+500₽</h2></div>
-                </li>
-                <li class="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
-                    <div>
-                        <h5 class="">Пополнение</h5>
-                        <small class="text-gray-300">2024-10-01 23:53:59</small>
-                    </div>
-                    <div class="flex items-center"><h2 style="color: green">+500₽</h2></div>
-                </li>
-                <li class="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
-                    <div>
-                        <h5 class="">Списание</h5>
-                        <small class="text-gray-300">2024-10-01 23:53:59</small>
-                    </div>
-                    <div class="flex items-center"><h2 style="color: red">-10000₽</h2></div>
-                </li>
-                <li class="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
-                    <div>
-                        <h5 class="">Пополнение</h5>
-                        <small class="text-gray-300">2024-10-01 23:53:59</small>
-                    </div>
-                    <div class="flex items-center"><h2 style="color: green">+500₽</h2></div>
-                </li>
+
             </ul>
         </div>
 

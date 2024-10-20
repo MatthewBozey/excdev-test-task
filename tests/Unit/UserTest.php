@@ -16,7 +16,6 @@ class UserTest extends TestCase
         parent::setUp();
     }
 
-
     #[\PHPUnit\Framework\Attributes\Test]
     public function it_creates_a_user_and_a_balance()
     {
