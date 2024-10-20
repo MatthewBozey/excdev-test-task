@@ -1,6 +1,6 @@
 import {createRouter, createWebHashHistory} from 'vue-router';
 import App from './pages/App.vue';
-
+import {useToast} from 'vue-toastification';
 const routes = [
     {
         path: '/',
@@ -11,8 +11,20 @@ const routes = [
             {
                 path: '/balance',
                 name: 'balance',
-                meta: {hasAuth: false},
+                meta: {hasAuth: true},
                 component: () => import('./pages/Balance.vue')
+            },
+            {
+                path: '/users',
+                name: 'users',
+                meta: {hasAuth: true},
+                component: () => import('./pages/Users.vue')
+            },
+            {
+                path: '/operations',
+                name: 'operations',
+                meta: {hasAuth: true},
+                component: () => import('./pages/Operations.vue')
             },
 
         ],
@@ -21,7 +33,7 @@ const routes = [
         path: '/login',
         name: 'login',
         meta: {hasAuth: false},
-        component: () => {},
+        component: () => import('./pages/Login.vue'),
     },
     {
         path: '/reset-password',
@@ -74,12 +86,12 @@ router.beforeEach((to, from, next) => {
 
     // await store.restored;
     if (to.matched.some(record => record.meta.hasAuth)) {
-        const token = localStorage.getItem('access_token');
+        const token = localStorage.getItem('token');
         if (token) {
             if (to.matched.some(record => record.meta.permission)) {
                 let permission = JSON.parse(localStorage.getItem('permissions'));
                 if (!permission || !checkPermission(permission, to.meta.permission)) {
-                    router.push('/access-denied');
+                    useToast().error('Доступ запрещен');
                 } else {
                     next();
                 }

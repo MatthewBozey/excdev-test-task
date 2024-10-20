@@ -35,16 +35,15 @@
 
 
 
-import { createRouter as $router } from 'vue-router'
-
 export default {
     methods: {
-        $router,
         onMenuToggle(event) {
             this.$emit("menu-toggle", event);
         },
 
-        logout() {},
+        logout() {
+            this.$router.push("/login");
+        },
     },
     computed: {
         darkTheme() {
