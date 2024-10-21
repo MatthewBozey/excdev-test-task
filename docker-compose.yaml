@@ -20,6 +20,10 @@ services:
       - QUEUE_CONNECTION=redis
       - REDIS_HOST=redis
       - REDIS_PORT=6379
+      - REDIS_CLIENT=predis
+      - REDIS_PASSWORD=null
+      - BROADCAST_CONNECTION=reverb
+
     depends_on:
       - db
       - redis

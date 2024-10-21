@@ -29,13 +29,31 @@ export default {
     async created() {
         await this.getOperationTypeData();
         await this.filterHandler();
-        this.interval = setInterval(this.filterHandler, 60000);
+        // this.interval = setInterval(this.filterHandler, 60000);
+    },
+    mounted() {
+        window.Echo.private('Balance.Operation.' + this.user_info.id)
+            .listen('.BalanceOperationCreated', (data) => {
+                this.appendOperation(data.model);
+                switch (data.operation_type.name){
+                    case 'debit':
+                        this.$notification.error('- ' + data.model.amount + '₽')
+                        break;
+                    case 'credit':
+                        this.$notification.success('+ ' + data.model.amount + '₽')
+                        break;
+                    default:
+                        this.$notification.info(data.model.amount + '₽')
+                        break;
+                }
+            })
+
     },
     computed: {
-        ...mapGetters(['balance_operation', 'loading', 'operation_type'])
+        ...mapGetters(['balance_operation', 'loading', 'operation_type', 'user_info'])
     },
     beforeUnmount() {
-        clearInterval(this.interval);
+        // clearInterval(this.interval);
     },
     methods: {
         ...mapActions(['saveOperations', 'appendOperation', 'saveOperationTypes']),

@@ -2,9 +2,12 @@
 
 namespace App\Models;
 
+use App\Observers\UserBalanceObserver;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+#[ObservedBy([UserBalanceObserver::class])]
 class UserBalance extends Model
 {
     protected $table = 'user_balance';

@@ -31,10 +31,8 @@ class BalanceOperationJob implements ShouldQueue
                 'operation_date' => Carbon::now()->timezone('Europe/Moscow'),
                 'operation_type_id' => $this->data['operation']['id'],
             ]);
-            UserBalance::updateOrCreate(
-                ['user_id' => $this->data['user']['id']],
-                ['balance' => $this->data['balance']]
-            );
+            UserBalance::where('user_id', $this->data['user']['id'])
+                ->update(['balance' => $this->data['balance']]);
             \DB::commit();
         } catch (\Exception $e) {
             \DB::rollBack();
