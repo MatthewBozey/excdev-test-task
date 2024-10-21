@@ -1,6 +1,5 @@
 FROM php:8.3-fpm
 
-# Установка необходимых пакетов, включая Node.js и npm
 RUN apt-get update && apt-get install -y \
     git \
     curl \
@@ -23,31 +22,23 @@ RUN apt-get update && apt-get install -y \
     && curl -fsSL https://deb.nodesource.com/setup_18.x | bash - \
     && apt-get install -y nodejs
 
-# Установка Composer
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
-# Настройка рабочей директории
 WORKDIR /var/www/html
 
-# Копирование и установка зависимостей
 COPY composer.json package.json ./
 RUN composer install --no-autoloader --no-scripts --prefer-dist --no-dev
 RUN npm install
 
-# Копирование файлов приложения и сборка фронта
 COPY . .
 RUN npm run build
 RUN composer dump-autoload --optimize
 
-# Установка прав
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
 
-# Настройка Supervisor
 COPY ./docker/supervisor/supervisord.conf /etc/supervisor/supervisord.conf
 COPY ./docker/supervisor/laravel-worker.conf /etc/supervisor/conf.d/laravel-worker.conf
 
-# Открытие портов
 EXPOSE 9000
 
-# Запуск Supervisor для управления PHP-FPM и очередями
 CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/supervisord.conf"]
