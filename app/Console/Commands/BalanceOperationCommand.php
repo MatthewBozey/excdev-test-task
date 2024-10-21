@@ -26,8 +26,8 @@ class BalanceOperationCommand extends Command
         $amount = (float) $this->ask('Введите сумму операции');
         $this->checkAmount($amount);
 
-        $operation_type_choise = $this->choice('Выберите вид операции', OperationType::get()->pluck('title')->toArray());
-        $operation_type = OperationType::where('title', $operation_type_choise)->first();
+        $operation_type_choose = $this->choice('Выберите вид операции', OperationType::get()->pluck('title')->toArray());
+        $operation_type = OperationType::where('title', $operation_type_choose)->first();
         $description = $this->ask('Введите описание операции');
 
         $balance = $helper->generateBalanceUser($amount, $operation_type->id, $user);

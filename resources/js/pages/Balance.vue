@@ -7,13 +7,14 @@ export default {
     name: "Balance",
     created() {
         this.getBalance();
-        this.interval = setInterval(this.getBalance, 30000);
+        // this.interval = setInterval(this.getBalance, 30000);
     },
     computed: {
-        ...mapGetters(['user_info'])
+        ...mapGetters(['user_info', 'loading'])
     },
     mounted() {
-
+        window.Echo.private('balance.' + this.user_info.id)
+            .listen('BalanceChanged', (response) => this.saveUserInfo(response.data))
     },
     methods: {
         ...mapActions(['saveUserInfo']),
@@ -22,7 +23,7 @@ export default {
         }
     },
     beforeUnmount() {
-        clearInterval(this.interval);
+        // clearInterval(this.interval);
     }
 }
 </script>
@@ -32,7 +33,8 @@ export default {
         <div class="card ">
             <div class="flex justify-between align-items-center">
                 <div><h1 class="">Баланс</h1></div>
-                <div><h1 v-text="user_info?.balance?.balance + ' ₽'"></h1></div>
+                <div v-if="this.loading"><Skeleton width="10rem" height="3rem"></Skeleton></div>
+                <div v-else><h1 v-text="user_info?.balance?.balance + ' ₽'"></h1></div>
             </div>
         </div>
 
@@ -40,7 +42,8 @@ export default {
             <div
                  class="flex justify-between align-items-center">
                 <div><h1 class="" v-text="item.name"></h1></div>
-                <div><h1 v-text="item.count"></h1></div>
+                <div v-if="loading"><Skeleton width="10rem" height="3rem"></Skeleton></div>
+                <div v-else><h1 v-text="item.count"></h1></div>
             </div>
         </div>
 

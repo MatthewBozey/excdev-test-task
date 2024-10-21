@@ -3,12 +3,14 @@
 namespace App\Models;
 
 use App\Traits\ModelFilter;
+use Illuminate\Broadcasting\PrivateChannel;
+use Illuminate\Database\Eloquent\BroadcastsEvents;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class BalanceOperation extends Model
 {
-    use ModelFilter;
+    use BroadcastsEvents, ModelFilter;
 
     protected $table = 'balance_operation';
 
@@ -35,5 +37,18 @@ class BalanceOperation extends Model
         return [
             'operation_date' => 'datetime:Y-m-d H:i:s',
         ];
+    }
+
+    public function broadcastOn($event): array
+    {
+        return [new PrivateChannel('Balance.Operation.'.$this->user_id)];
+    }
+
+    public function broadcastWith(string $event): array
+    {
+        return match ($event) {
+            'created' => ['model' => $this, 'operation_type' => $this->operationType],
+            default => ['model' => $this],
+        };
     }
 }
