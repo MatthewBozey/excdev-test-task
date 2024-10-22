@@ -32,7 +32,7 @@ export default {
         // this.interval = setInterval(this.filterHandler, 60000);
     },
     mounted() {
-        window.Echo.private('Balance.Operation.' + this.user_info.id)
+        this.channel = window.Echo.private('Balance.Operation.' + this.user_info.id)
             .listen('.BalanceOperationCreated', (data) => {
                 this.appendOperation(data.model);
                 switch (data.operation_type.name){
@@ -53,6 +53,7 @@ export default {
         ...mapGetters(['balance_operation', 'loading', 'operation_type', 'user_info'])
     },
     beforeUnmount() {
+        this.channel.unsubscribe();
         // clearInterval(this.interval);
     },
     methods: {
