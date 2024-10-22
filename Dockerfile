@@ -1,5 +1,10 @@
 FROM php:8.3-fpm
 
+ENV RUNNER_USER=1001
+ENV RUNNER_GROUP=1001
+ENV RUNNER_PORT=9000
+ENV WORKDIR="/var/www/html"
+
 RUN apt-get update && apt-get install -y \
     git \
     curl \
@@ -22,9 +27,9 @@ RUN apt-get update && apt-get install -y \
     && curl -fsSL https://deb.nodesource.com/setup_18.x | bash - \
     && apt-get install -y nodejs
 
-COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-WORKDIR /var/www/html
+WORKDIR $WORKDIR
 
 COPY composer.json package.json ./
 RUN composer install --no-autoloader --no-scripts --prefer-dist --no-dev
@@ -33,6 +38,7 @@ RUN npm install
 COPY . .
 RUN npm run build
 RUN composer dump-autoload --optimize
+COPY . .
 
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
 

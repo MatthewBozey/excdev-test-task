@@ -23,10 +23,14 @@ services:
       - REDIS_CLIENT=predis
       - REDIS_PASSWORD=null
       - BROADCAST_CONNECTION=reverb
-
+      - REVERB_HOST="localhost"
+      - REVERB_SCHEME="http"
+      - REVERB_PORT="8080"
     depends_on:
       - db
       - redis
+    ports:
+      - "8080:8080"
     networks:
       - laravel
     command: >

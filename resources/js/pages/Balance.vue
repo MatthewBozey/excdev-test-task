@@ -13,7 +13,7 @@ export default {
         ...mapGetters(['user_info', 'loading'])
     },
     mounted() {
-        window.Echo.private('balance.' + this.user_info.id)
+        this.channel = window.Echo.private('balance.' + this.user_info.id)
             .listen('BalanceChanged', (response) => this.saveUserInfo(response.data))
     },
     methods: {
@@ -23,6 +23,7 @@ export default {
         }
     },
     beforeUnmount() {
+        this.channel.unsubscribe();
         // clearInterval(this.interval);
     }
 }
